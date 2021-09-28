@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    Copyright (c) 2014 Oracle and/or its affiliates. All rights reserved.
+
+    You may not modify, use, reproduce, or distribute this software except in
+    compliance with  the terms of the License at:
+    http://java.net/projects/javaeetutorial/pages/BerkeleyLicense
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                template="/bookstoreTemplate.xhtml"> 
+
+    <ui:define name="top"></ui:define> 
+    <ui:define name="content">
+        <h:form id="bookcheckout" >
+            <p>
+                <h:outputText value="#{bundle.Amount}" />
+                <strong>
+                    <h:outputText value="#{cart.total}">
+                        <f:convertNumber currencySymbol="$" type="currency"/>
+                    </h:outputText>
+                </strong>
+            </p>
+            <p>
+                <h:outputText value="Please confirm your Payment"/>
+            </p>
+
+            <h:panelGrid columns="2"
+                         headerClass="list-header"
+                         styleClass="list-background"
+                         rowClasses="list-row-even, list-row-odd"
+                         summary="#{bundle.CustomerInfo}"
+                         title="#{bundle.Checkout}"
+                         role="presentation">
+                <!-- Panel header -->
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.Checkout}"/>
+                </f:facet>
+
+                
+                <!-- Sub total -->
+                <h:outputLabel for="subTotal" value="Sub Total :"/>
+                <h:outputText id="subTotal" 
+                              value="#{cart.total}"
+                              
+                              >
+                    <f:convertNumber currencySymbol="$" type="currency"/>
+                </h:outputText>
+                
+                <h:message styleClass="error-message" for="subTotal"/>
+                <!-- Tax -->
+                <h:outputLabel for="tax" value="Tax :"/>
+                <h:outputText id="tax" 
+                              value="#{cashierBean.tax}"
+                              >
+                    <f:convertNumber currencySymbol="$" type="currency"/>
+                </h:outputText>
+                <h:message styleClass="error-message" for="tax"/>
+                <!-- Shipping Cost -->
+                <h:outputLabel for="shippingCost" value="Shipping Cost :"/>
+                <h:outputText id="shippingCost" 
+                              value="#{cashierBean.shippingCharge}"
+                              >
+                    <f:convertNumber currencySymbol="$" type="currency"/>
+                </h:outputText>
+                <h:message styleClass="error-message" for="shippingCost"/>
+                <!-- Total -->
+                <h:outputLabel for="total" value="Total :"/>
+                <h:outputText id="total" 
+                              value="#{cashierBean.total}"
+                              >
+                    <f:convertNumber currencySymbol="$" type="currency"/>
+                </h:outputText>
+                <h:message styleClass="error-message" for="total"/>
+
+            </h:panelGrid>    
+            <p>
+            <h:outputText value="#{bundle.ShipDate}"/>
+            <h:outputText value="#{cashierBean.shipDate}">
+                <f:convertDateTime type="date" dateStyle="full"/>
+            </h:outputText>
+            <h:outputText value="."/>
+            </p>
+            <h:panelGrid columns="1" 
+                         columnClasses="special-offer" 
+                         summary="#{bundle.ThanksMsg}">
+                
+                <h:commandButton value="#{bundle.Submit}"
+                                 action="#{cashierBean.submitCheckout}">
+                    
+                </h:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
